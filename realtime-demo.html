@@ -193,7 +193,7 @@
             var hr = data.heartrate;
             var time = data.time;
             var p_strRecent = 'ID: ' + id + ' Pressure: ' + lp + '/' + hp + ' HeartRate: ' + hr + ' On: ' + time;
-            $('#heartrate').html(p_strRecent);
+            $('#heartrate_lb').html(p_strRecent);
         });
 
         socket.on('tdata', function (data) {
@@ -203,7 +203,7 @@
             var temp = data.temp;
             var time = data.time;
             var t_strRecent = 'ID: ' + id + 'Temperature: ' + temp + 'On: ' + time;
-            $('#temperature').html(t_strRecent);
+            $('#temperature_lb').html(t_strRecent);
         });
 
         //tell socket.io to never give up :)

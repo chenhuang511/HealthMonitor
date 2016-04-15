@@ -124,7 +124,7 @@ var tcpServer = net.createServer(function (client) {
                 if (_socket) {
                     var _time = new Date().toLocaleString();
                     _socket.volatile.emit('pdata', {
-                        id: ip,
+                        id: id,
                         lowP: lp,
                         highP: hp,
                         heartrate: hr,
