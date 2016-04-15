@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #graph {
+            height: 300px;
+            width: 100%;
+            font-size: 0;
+        }
+
+        #heartrate, #temperature {
+            display: inline-block;
+            *display: inline;
+            zoom: 1;
+            vertical-align: top;
+            font-size: 12px;
+        }
+
+        #heartrate_lb, #temperature_lb {
+            display: inline-block;
+            *display: inline;
+            zoom: 1;
+            vertical-align: top;
+            font-size: 24px;
+        }
+
+        #heartrate_lb {
+            width: 50%;
+            height: 10%
+        }
+
+        #temperature_lb {
+            width: 50%;
+            height: 10%
+        }
+
+        #heartrate {
+            width: 50%;
+            height: 90%
+        }
+
+        #temperature {
+            width: 50%;
+            height: 90%
+        }
+    </style>
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #recent {
+            height: 250px;
+            width: 100%;
+            font-size: 0;
+        }
+
+        #r_heartrate, #r_temperature {
+            display: inline-block;
+            *display: inline;
+            zoom: 1;
+            vertical-align: top;
+            font-size: 16px;
+        }
+
+        #r_heartrate_lb, #r_temperature_lb {
+            display: inline-block;
+            *display: inline;
+            zoom: 1;
+            vertical-align: top;
+            font-size: 24px;
+        }
+
+        #r_heartrate_lb {
+            width: 50%;
+            height: 10%
+        }
+
+        #r_temperature_lb {
+            width: 50%;
+            height: 10%
+        }
+
+        #r_heartrate {
+            width: 50%;
+            height: 90%
+        }
+
+        #r_temperature {
+            width: 50%;
+            height: 90%
+        }
+    </style>
+
+    <style>
+        .left {
+            float: left;
+            width: 300px;
+            border: 1px solid #73AD21;
+            padding: 10px;
+        }
+    </style>
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            text-align: left;
+        }
+
+        h3 {
+            text-align: right;
+        }
+    </style>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Demo</title>
+
+    <script language="javascript" type="text/javascript"
+            src="/flot/jquery.js"></script>
+
+    <script language="javascript" type="text/javascript"
+            src="/flot/jquery.flot.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+
+        var socket = io.connect('localhost:4446', {
+            'reconnect': true,
+            'reconnection delay': 500
+        });
+
+        //        socket.emit('init');
+        //
+        //        socket.on('begin', function (status) {
+        //            if (!status)
+        //                return;
+        //            console.log(status[0].heartrate);
+        //
+        //            //for hearrate graph
+        //            for (var i in status) {
+        //                h_items.push([h_counter, status[i].heartrate]);
+        //                h_counter = h_counter + 1;
+        //            }
+        //            $.plot($("#heartrate"), [h_items]);
+        //
+        //            //for temperature graph
+        //            for (var i in status) {
+        //                t_items.push([t_counter, status[i].temperature]);
+        //                t_counter = t_counter + 1;
+        //            }
+        //            $.plot($("#temperature"), [t_items]);
+        //
+        //            //for recent hearrate data
+        //            var strRecent = '';
+        //            for (var i in status) {
+        //                if (i == 10)
+        //                    break;
+        //                var index = status.length - i - 1;
+        //                strRecent += status[index].heartrate + "-------------------------" + status[index].address + "-------------------------" + status[index].time + '<br/>';
+        //            }
+        //            $('#r_heartrate').html(strRecent);
+        //
+        //            //for recent temperature data
+        //            var strRecent = '';
+        //            for (var i in status) {
+        //                if (i == 10)
+        //                    break;
+        //                var index = status.length - i - 1;
+        //                strRecent += status[index].temperature + "-------------------------" + status[index].address + "-------------------------" + status[index].time + '<br/>';
+        //            }
+        //            $('#r_temperature').html(strRecent);
+        //
+        //        });
+
+        socket.on('pdata', function (data) {
+            if (!data)
+                return;
+            var id = data.id;
+            var lp = data.lowP;
+            var hp = data.highP;
+            var hr = data.heartrate;
+            var time = data.time;
+            var p_strRecent = 'ID: ' + id + ' Pressure: ' + lp + '/' + hp + ' HeartRate: ' + hr + ' On: ' + time;
+            $('#heartrate').html(p_strRecent);
+        });
+
+        socket.on('tdata', function (data) {
+            if (!data)
+                return;
+            var id = data.id;
+            var temp = data.temp;
+            var time = data.time;
+            var t_strRecent = 'ID: ' + id + 'Temperature: ' + temp + 'On: ' + time;
+            $('#temperature').html(t_strRecent);
+        });
+
+        //tell socket.io to never give up :)
+        socket.on('error', function () {
+            socket.socket.reconnect();
+        });
+    </script>
+
+</head>
+<body>
+<div class="left" id="graph">
+    <h1 id="heartrate_lb">Heart Rate & Pressure</h1>
+
+    <h1 id="temperature_lb">Temperature</h1>
+
+    <div class = "h1" id="heartrate"></div>
+    <div class = "h1" id="temperature"></div>
+</div>
+</body>
+</html>
