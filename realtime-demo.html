@@ -104,7 +104,7 @@
         .left {
             float: left;
             width: 300px;
-            border: 1px solid #73AD21;
+            /*border: 1px solid #73AD21;*/
             padding: 10px;
         }
     </style>
@@ -192,7 +192,7 @@
             var hp = data.highP;
             var hr = data.heartrate;
             var time = data.time;
-            var p_strRecent = 'ID: ' + id + ' Pressure: ' + lp + '/' + hp + ' HeartRate: ' + hr + ' On: ' + time;
+            var p_strRecent = 'ID: ' + id + '<br>' + 'Pressure: ' + lp + '/' + hp + '<br>' + 'HeartRate: ' + hr + '<br>' + 'On: ' + time;
             $('#heartrate_lb').html(p_strRecent);
         });
 
@@ -202,7 +202,7 @@
             var id = data.id;
             var temp = data.temp;
             var time = data.time;
-            var t_strRecent = 'ID: ' + id + ' Temperature: ' + temp + ' On: ' + time;
+            var t_strRecent = 'ID: ' + id + '<br>' + 'Temperature: ' + temp + '<br>' + 'On: ' + time;
             $('#temperature_lb').html(t_strRecent);
         });
 
@@ -215,9 +215,9 @@
 </head>
 <body>
 <div class="left" id="graph">
-    <h1 id="heartrate_lb">Heart Rate & Pressure</h1>
+    <h2 id="heartrate_lb">Heart Rate & Pressure</h2>
 
-    <h1 id="temperature_lb">Temperature</h1>
+    <h2 id="temperature_lb">Temperature</h2>
 
     <div class = "h1" id="heartrate"></div>
     <div class = "h1" id="temperature"></div>

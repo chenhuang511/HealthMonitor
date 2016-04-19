@@ -243,29 +243,21 @@ var add_t_status = function (id, temp, ttime, callback) {
         }
 
         //check id exist
-        var exist = false;
         connection.query("select id from `newstatus` where id='" + id + "'", function (err, rows) {
-            if (rows) {
-                exist = true;
+            if (rows[0] != null) {
+                connection.query("update newstatus set `temp` = '" + temp + "', `ttime` = '" + ttime + "' where `id` = '" + id + "'", function (err, rows) {
+                    if (!err) {
+                        callback(true);
+                    }
+                });
             } else {
-                exist = false;
+                connection.query("INSERT INTO `newstatus` (`id`,`temp`,`ttime`) VALUES ('" + id + "','" + temp + "','" + ttime + "')", function (err, rows) {
+                    if (!err) {
+                        callback(true);
+                    }
+                });
             }
         });
-
-        if (exist) {
-            connection.query("update newstatus set `temp` = '" + temp + "', `ptime` = '" + ptime + "' where `id` = '" + id + "'", function (err, rows) {
-                if (!err) {
-                    callback(true);
-                }
-            });
-        } else {
-            connection.query("INSERT INTO `newstatus` (`id`,`temp`,`ttime`) VALUES ('" + id + "','" + temp + "','" + ttime + "')", function (err, rows) {
-                if (!err) {
-                    callback(true);
-                }
-            });
-        }
-
 
         connection.on('error', function (err) {
             callback(false);
